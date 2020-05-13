@@ -74,32 +74,50 @@ DATA = [
 
 def run():
 
-    all_python_devs =  # Using filter, generate a list with all the python devs
-    all_Platzi_workers =  # Using filter, generate a list with all the Platzi workers
-    adults =  # Using filter, generate a list with all people over 18 years old
-    workers =  # Using map, generate a new list of people with a key 'homeless' with True or False values, if 'organization' have something or not
-    old_people =  # Using map, generate a new list of people with a key 'old' with True or False values, if 'age' is greater than 30 or not
+    all_python_devs = filter(lambda dev: dev['language'] == 'python', DATA)
+    all_Platzi_workers =  filter(lambda platzi_worker: platzi_worker['organization'] == 'Platzi', DATA )
+    adults = filter(lambda adult: adult['age'] >= 18, DATA)
+
+    def homeless(workers):
+        n_worker = dict(workers)
+        n_worker['homeless'] = n_worker['organization'] == ''
+        return n_worker
+
+    def old (workers):
+        n_old = dict(workers)
+        n_old['old'] = n_old['age'] >= 30
+        return n_old
+
+    workers =  map(homeless, DATA)
+    old_people =  map(old, DATA) 
+
+    all_homeless = filter(lambda homeless: homeless['homeless'] == True, workers)
+    all_old_people = filter (lambda old: old['old'] == True, old_people)
 
     print('Python devs: ')
     for dev in all_python_devs:
         print(dev['name'])
-    print('\n\n')
+    print('\n')
 
     print('Platzi workers: ')
     for worker in all_Platzi_workers:
         print(worker['name'])
-    print('\n\n')
+    print('\n')
 
     print('Adults: ')
     for adult in adults:
         print(adult['name'])
-    print('\n\n')
+    print('\n')
 
-    print(workers)
-    print('\n\n')
+    print('Homeless: ')
+    for homeless in all_homeless:
+        print(homeless['name'])
+    print('\n')
 
-    print(old_people)
-    print('\n\n')
+    print('Old people: ')
+    for old_people in all_old_people:
+        print(old_people['name'])
+    print('\n')
 
     # Remember: when possible, use lambdas
 
